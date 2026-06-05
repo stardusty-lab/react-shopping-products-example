@@ -1,7 +1,7 @@
 import { mockProducts } from "../mocks/products";
 
 export type CartItemType = {
-  id: number;
+  id: number; // cartItemId
   quantity: number;
   product: ProductType;
 };

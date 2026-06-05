@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import { type CartItemType, getCartItems } from "./remote";
+import { type CartItemType } from "./remote";
 
-export default function Header() {
+export default function Header(props: { cartItems: CartItemType[] }) {
   return (
     <>
       <CartIcon />
-      <CartItemCount />
+      <CartItemCount count={props.cartItems.length} />
     </>
   );
 }
@@ -14,12 +13,6 @@ function CartIcon() {
   return <div>🛒</div>;
 }
 
-function CartItemCount() {
-  const [cartItems, setCartItems] = useState<CartItemType[]>([]);
-
-  useEffect(() => {
-    getCartItems().then((data) => setCartItems(data));
-  }, []);
-
-  return <div>{cartItems.length} items</div>;
+function CartItemCount(props: { count: number }) {
+  return <div>{props.count} items</div>;
 }

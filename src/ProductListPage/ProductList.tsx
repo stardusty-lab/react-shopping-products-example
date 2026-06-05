@@ -9,28 +9,14 @@ import {
 } from "./remote";
 import { mockProducts } from "../mocks/products";
 
-export default function ProductList() {
+export default function ProductList({
+  cartItems,
+  onToggleCartItem,
+}: {
+  cartItems: CartItemType[];
+  onToggleCartItem: (productId: number) => void;
+}) {
   const [products] = useState<ProductType[]>(mockProducts);
-  const [cartItems, setCartItems] = useState<CartItemType[]>([]);
-
-  useEffect(() => {
-    getCartItems().then(setCartItems);
-  }, []);
-
-  const handleToggleCartItem = async (productId: number) => {
-    const existingCartItem = cartItems.find(
-      (item) => item.product.id === productId
-    );
-
-    if (existingCartItem) {
-      await deleteCartItem(existingCartItem.id);
-    } else {
-      await addCartItem(productId);
-    }
-
-    const updatedCartItems = await getCartItems();
-    setCartItems(updatedCartItems);
-  };
 
   return (
     <>
@@ -39,7 +25,7 @@ export default function ProductList() {
           key={product.id}
           product={product}
           isInCart={cartItems.some((item) => item.product.id === product.id)}
-          onToggleCart={() => handleToggleCartItem(product.id)}
+          onToggleCart={() => onToggleCartItem(product.id)}
         />
       ))}
     </>

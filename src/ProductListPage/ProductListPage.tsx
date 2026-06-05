@@ -3,12 +3,11 @@ import {
   addCartItem,
   deleteCartItem,
   getCartItems,
-  type ProductType,
   type CartItemType,
 } from "./remote";
 
-import ProductList from "./ProductList";
-import Header from "./Header";
+import ProductList, { ProductItem } from "./ProductList";
+import Header, { CartIcon, CartItemCount } from "./Header";
 
 export default function ProductListPage() {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
@@ -34,11 +33,26 @@ export default function ProductListPage() {
 
   return (
     <>
-      <Header cartItems={cartItems} />
+      <Header>
+        <CartIcon />
+        <CartItemCount count={cartItems.length} />
+      </Header>
       <ProductList
-        cartItems={cartItems}
-        onToggleCartItem={handleToggleCartItem}
-      />
+        renderProducts={(products) => {
+          return products.map((product) => (
+            <ProductItem
+              key={product.id}
+              product={product}
+              isInCart={cartItems.some(
+                (item) => item.product.id === product.id,
+              )}
+              onToggleCart={() => handleToggleCartItem(product.id)}
+            />
+          ));
+        }}
+      >
+        {}
+      </ProductList>
     </>
   );
 }

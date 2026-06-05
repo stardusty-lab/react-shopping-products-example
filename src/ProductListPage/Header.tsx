@@ -1,18 +1,13 @@
-import { type CartItemType } from "./remote";
+import type { ReactNode } from "react";
 
-export default function Header(props: { cartItems: CartItemType[] }) {
-  return (
-    <>
-      <CartIcon />
-      <CartItemCount count={props.cartItems.length} />
-    </>
-  );
+export default function Header(props: { children: ReactNode }) {
+  return <>{props.children}</>;
 }
 
-function CartIcon() {
+export function CartIcon() {
   return <div>🛒</div>;
 }
 
-function CartItemCount(props: { count: number }) {
+export function CartItemCount(props: { count: number }) {
   return <div>{props.count} items</div>;
 }
